@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500
+}
+

@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model stock {
+  stock_id Int    @id @default(autoincrement())
+  symbol   String @unique
+  price    Int
+  calls    call[]
+  puts     put[]
+}
+
+model user {
+  userId    Int           @id @default(autoincrement())
+  email     String        @unique(map: "sqlite_autoindex_contacts_1")
+  cash      Int           @default(10000)
+  optCon    optiontrade[]
+  positions trade[]
+}
+
+model trade {
+  ref_id  Int    @id @default(autoincrement())
+  symbol  String
+  bs      Int
+  price   Int
+  makerId Int?
+  maker   user?  @relation(fields: [makerId], references: [userId])
+}
+
+model optiontrade {
+  ref_id     Int      @id @default(autoincrement())
+  symbol     String
+  type       Int
+  expiration DateTime
+  strike     Int
+  contrPrice Int
+  makerEmail String
+  maker      user     @relation(fields: [makerEmail], references: [email])
+}
+
+model call {
+  callId         Int      @id @default(autoincrement())
+  symbol         String
+  contractSymbol String   @unique
+  strike         Int
+  expiration     DateTime
+  impliedVol     Float?
+  lastPrice      Float?
+  bid            Float?
+  ask            Float?
+  vol            Int?
+  stock          stock    @relation(fields: [symbol], references: [symbol])
+}
+
+model put {
+  putId          Int      @id @default(autoincrement())
+  symbol         String
+  contractSymbol String   @unique
+  strike         Int?
+  expiration     DateTime
+  impliedVol     Float?
+  lastPrice      Float?
+  bid            Float?
+  ask            Float?
+  vol            Int?
+  stock          stock    @relation(fields: [symbol], references: [symbol])
+}
