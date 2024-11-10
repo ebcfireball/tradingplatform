@@ -33,14 +33,15 @@ model trade {
 }
 
 model optiontrade {
-  ref_id     Int      @id @default(autoincrement())
-  symbol     String
-  type       Int
-  expiration DateTime
-  strike     Int
-  contrPrice Int
-  makerEmail String
-  maker      user     @relation(fields: [makerEmail], references: [email])
+  ref_id         Int      @id @default(autoincrement())
+  symbol         String
+  type           Int
+  contractSymbol String
+  expiration     DateTime
+  strike         Int
+  contrPrice     Int
+  makerEmail     String
+  maker          user     @relation(fields: [makerEmail], references: [email])
 }
 
 model call {

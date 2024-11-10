@@ -32,7 +32,7 @@ export async function POST(req) {
                     makerId: userInfo.userId
                 }
             })
-            const user = await prisma.user.update({
+            const userup = await prisma.user.update({
                 where:{
                     email:email
                 },data:{
@@ -41,8 +41,8 @@ export async function POST(req) {
                     positions:true
                 }
             })
-            console.log(trade, user)
-            return NextResponse.json({trade, user})
+            console.log(trade, userup)
+            return NextResponse.json({trade, userup})
         }
         return NextResponse.json({"insufficient":"funds"})
     } catch (error) {

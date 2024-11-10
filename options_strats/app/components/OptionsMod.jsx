@@ -20,13 +20,69 @@ export default function OptionsMod({ data }) {
             : (putOpts[expiration] = [put]);
     }
 
-    const buy = async()=>{
-        console.log('buy')
-    }
-    
-    const sell = async()=>{
-        console.log('sell')
-    }
+    const buy = async (
+        opt,
+        symbol,
+        contractSymbol,
+        expiration,
+        strike,
+        contrPrice
+    ) => {
+        console.log("buy",opt);
+        try {
+            const res = await fetch("/api/trade/option", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application.json",
+                },
+                body: JSON.stringify({
+                    symbol: symbol,
+                    type: 0,
+                    contractSymbol: contractSymbol,
+                    expiration: expiration,
+                    strike: strike,
+                    contrPrice: contrPrice,
+                }),
+            });
+            if (res.ok) {
+                console.log("just bought successfully");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const sell = async (
+        opt,
+        symbol,
+        contractSymbol,
+        expiration,
+        strike,
+        contrPrice
+    ) => {
+        console.log("sell",opt);
+        try {
+            const res = await fetch("/api/trade/option", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application.json",
+                },
+                body: JSON.stringify({
+                    symbol: symbol,
+                    type: 1,
+                    contractSymbol: contractSymbol,
+                    expiration: expiration,
+                    strike: strike,
+                    contrPrice: contrPrice,
+                }),
+            });
+            if (res.ok) {
+                console.log("just sold successfully");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
     return (
         <div className="bg-slate-200 rounded-md p-2 my-4 w-1/2 place-items-center">
             <h2 className="text-xl font-semibold mb-2">{data.symbol}</h2>
@@ -112,10 +168,34 @@ export default function OptionsMod({ data }) {
                                         <p>{call.bid}</p>
                                         <p>{call.ask}</p>
                                         <div className="flex gap-1">
-                                            <button onClick={()=>buy()} className="bg-green-200 rounded-lg w-10 hover:bg-green-400 transition-all duration-500 hover:w-12">
+                                            <button
+                                                onClick={() =>
+                                                    buy(
+                                                        call,
+                                                        data.symbol,
+                                                        call.contractSymbol,
+                                                        call.expiration,
+                                                        call.strike,
+                                                        call.lastPrice
+                                                    )
+                                                }
+                                                className="bg-green-200 rounded-lg w-10 hover:bg-green-400 transition-all duration-500 hover:w-12"
+                                            >
                                                 Buy
                                             </button>
-                                            <button onClick={()=>sell()} className="bg-red-200 rounded-lg w-10 hover:bg-red-400 transition-all duration-500 hover:w-12">
+                                            <button
+                                                onClick={() =>
+                                                    sell(
+                                                        call,
+                                                        data.symbol,
+                                                        call.contractSymbol,
+                                                        call.expiration,
+                                                        call.strike,
+                                                        call.lastPrice
+                                                    )
+                                                }
+                                                className="bg-red-200 rounded-lg w-10 hover:bg-red-400 transition-all duration-500 hover:w-12"
+                                            >
                                                 Sell
                                             </button>
                                         </div>
@@ -134,10 +214,34 @@ export default function OptionsMod({ data }) {
                                         <p>{put.bid}</p>
                                         <p>{put.ask}</p>
                                         <div className="flex gap-1">
-                                            <button onClick={()=>buy()} className="bg-green-200 rounded-lg w-10 hover:bg-green-400 transition-all duration-500 hover:w-12">
+                                            <button
+                                                onClick={() =>
+                                                    buy(
+                                                        put,
+                                                        data.symbol,
+                                                        put.contractSymbol,
+                                                        put.expiration,
+                                                        put.strike,
+                                                        put.lastPrice
+                                                    )
+                                                }
+                                                className="bg-green-200 rounded-lg w-10 hover:bg-green-400 transition-all duration-500 hover:w-12"
+                                            >
                                                 Buy
                                             </button>
-                                            <button onClick={()=>sell()} className="bg-red-200 rounded-lg w-10 hover:bg-red-400 transition-all duration-500 hover:w-12">
+                                            <button
+                                                onClick={() =>
+                                                    sell(
+                                                        put,
+                                                        data.symbol,
+                                                        put.contractSymbol,
+                                                        put.expiration,
+                                                        put.strike,
+                                                        put.lastPrice
+                                                    )
+                                                }
+                                                className="bg-red-200 rounded-lg w-10 hover:bg-red-400 transition-all duration-500 hover:w-12"
+                                            >
                                                 Sell
                                             </button>
                                         </div>

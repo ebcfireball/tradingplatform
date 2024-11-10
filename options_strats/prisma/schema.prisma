@@ -26,7 +26,7 @@ model user {
 model trade {
   ref_id  Int    @id @default(autoincrement())
   symbol  String
-  bs      Int
+  bs      Int //always 0 for buy since sell deletes this, will add short sell in future
   price   Int
   makerId Int?
   maker   user?  @relation(fields: [makerId], references: [userId])
@@ -35,11 +35,11 @@ model trade {
 model optiontrade {
   ref_id     Int      @id @default(autoincrement())
   symbol     String
+  type Int //0 is buy 1 is sell
   contractSymbol String  
-  type       Int
   expiration DateTime
   strike     Int
-  contrPrice Int
+  contrPrice Float?
   makerEmail String
   user       user?     @relation(fields: [makerEmail], references: [email])
 }
