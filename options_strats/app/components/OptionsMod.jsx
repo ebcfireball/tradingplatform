@@ -130,7 +130,7 @@ export default function OptionsMod({ data }) {
                                     onClick={() => setCurrExp(ind)}
                                     className={`${
                                         ind == currExp && "bg-cyan-800"
-                                    } rounded-full bg-cyan-500 p-2 w-[140px] hover:w-[150px] transition-all duration-500 hover:bg-cyan-700`}
+                                    } rounded-full bg-cyan-500 p-2 w-[150px] hover:w-[170px] transition-all duration-500 hover:bg-cyan-700`}
                                     key={ind}
                                 >
                                     {exp.slice(0, 15)}
@@ -149,7 +149,7 @@ export default function OptionsMod({ data }) {
                                 </button>
                             ))}
                     </div>
-                    <ul className="flex flex-col max-h-[500px] mt-4 overflow-y-auto overflow-x-auto ">
+                    <ul className="flex flex-col h-[70%] mt-4 overflow-y-auto overflow-x-auto ">
                         <li className="grid grid-cols-5 underline underline-offset-2 text-lg p-2">
                             <p>Strike</p>
                             <p>Last Price</p>
