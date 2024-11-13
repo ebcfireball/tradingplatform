@@ -3,6 +3,29 @@ import yahooFinance from "yahoo-finance2";
 
 const prisma = new PrismaClient()
 
+const cleanOptionDb = async()=>{
+    let calls = await prisma.call.findMany()
+    let puts = await prisma.put.findMany()
+    for (let call of calls){
+        if (call.expiration < Date.now()){
+            await prisma.call.delete({
+                where:{
+                    callId: call.callId
+                }
+            })
+        }
+    }
+    for (let put of puts){
+        if (put.expiration < Date.now()){
+            await prisma.put.delete({
+                where:{
+                    putId: put.putId
+                }
+            })
+        }
+    }
+}
+
 const getStocks = async () => {
     let res = await yahooFinance.quote(['AAPL', 'GOOG', 'MSFT', 'TSLA', 'NVDA','SPY'])
     for (let comp of res) {
@@ -90,8 +113,9 @@ const main = async () => {
         //getStocks()
         //getOptions()
     //}, (3000))
-    getStocks()
-    getOptions()
+    //getStocks()
+    //getOptions()
+    await cleanOptionDb()
 }
 
 main().then(async () => { await prisma.$disconnect() })
